@@ -135,9 +135,54 @@ class NordpoolPriceCard extends HTMLElement {
     `;
   }
 
+  static getConfigElement() {
+    const element = document.createElement('nordpool-price-card-editor');
+    return element;
+  }
+
+  static getStubConfig() {
+    return {
+      entity: 'sensor.nordpool',
+      unit: 'EUR', // Default unit
+    };
+  }
+
   getCardSize() {
     return 1;
   }
 }
 
 customElements.define('nordpool-price-card', NordpoolPriceCard);
+
+class NordpoolPriceCardEditor extends HTMLElement {
+  setConfig(config) {
+    this.config = config;
+    this.innerHTML = `
+      <div class="card-config">
+        <paper-dropdown-menu label="Sensor auswählen" class="dropdown">
+          <paper-listbox slot="dropdown-content" selected="0">
+            ${Object.keys(hass.states)
+              .filter(entity => entity.startsWith('sensor.nordpool'))
+              .map(entity => `<paper-item>${entity}</paper-item>`).join('')}
+          </paper-listbox>
+        </paper-dropdown-menu>
+        <paper-dropdown-menu label="Einheit auswählen" class="dropdown">
+          <paper-listbox slot="dropdown-content" selected="0">
+            <paper-item>EUR</paper-item>
+            <paper-item>Cent</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+      </div>
+    `;
+  }
+
+  get value() {
+    return this.config;
+  }
+
+  set value(config) {
+    this.config = config;
+  }
+}
+
+customElements.define('nordpool-price-card-editor', NordpoolPriceCardEditor);
