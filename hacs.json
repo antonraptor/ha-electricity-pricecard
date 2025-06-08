@@ -1,0 +1,8 @@
+{
+  "name": "Nordpool Price Card",
+  "filename": "dist/nordpool-price-card.js",
+  "render_readme": true,
+  "description": "A Tibber-style electricity price card based on Nordpool data.",
+  "domains": ["lovelace"],
+  "country": "DE"
+}
